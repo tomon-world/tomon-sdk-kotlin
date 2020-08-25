@@ -54,18 +54,15 @@ class Session(options: SessionOptions?,emitter: EventEmitter<Any>?) {
         this.url = URI(url)
         this.ws = WS()
         this.ws.onOpen = fun (){
-            println("🟢 [ws] open")
             this.handleOpen()
         }
         this.ws.onClose = fun (code:Int,reason:String?){
-            println("🔴 [ws] close  code $code   $reason")
             this.handleClose(code,reason)
         }
         this.ws.onMessage = fun (data:Any){
             this.handleMessage(data)
         }
         this.ws.onReconnect = fun (count:Int){
-            println("\uD83D\uDFE1 [ws] reconnecting")
             this._emitter?.emit("NETWORK_RECONNECTING",count)
         }
 
@@ -105,14 +102,6 @@ class Session(options: SessionOptions?,emitter: EventEmitter<Any>?) {
         }else{
             this._emitter?.emit("NETWORK_DISCONNECTED",code)
         }
-    }
-    private fun unpack(data:Any): Map<*, *>? {
-        val dataStr = if (data is ByteBuffer){
-            StandardCharsets.UTF_8.decode(data).toString()
-        }else{
-            data as String
-        }
-        return Gson().fromJson(data as String,MutableMap::class.java)
     }
     private fun handleMessage(data:Any){
         var raw :String = ""

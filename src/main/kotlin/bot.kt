@@ -2,8 +2,8 @@ package tomon.bot
 import com.google.gson.Gson
 import tomon.bot.network.Api
 import tomon.bot.network.Session
-import tomon.bot.network.SessionOptions
 import com.github.jafarlihi.eemit.EventEmitter
+import java.lang.IllegalArgumentException
 
 object OpCodeEvent {
     const val DISPATCH = "DISPATCH"
@@ -69,17 +69,23 @@ class Bot() {
     }
 
     fun start(token: String) {
+        if (token == ""){
+            throw IllegalArgumentException()
+        }
         return this._start(token)
     }
 
     fun startWithPassward(fullname: String, password: String) {
+        if (fullname == "" || password == ""){
+            throw IllegalArgumentException()
+        }
         return this._start(null, fullname, password)
     }
 
     private fun _start(token: String? = null, fullname: String? = null, password: String? = null) {
         var credentials = mutableMapOf<String, String>()
         if (token == null && fullname == null && password == null) {
-            println("no parameters")
+            throw IllegalArgumentException()
         } else if (token != null && fullname == null && password == null) {
             credentials["token"] = token
         } else if (token == null && fullname != null && password != null) {

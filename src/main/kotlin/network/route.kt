@@ -73,19 +73,15 @@ class Route {
         try {
             response = client.newCall(request).execute()
         }catch (e: Exception) {
-            println(e)
             return null
         }
         if (response.code in 200..299) {
             return response.body?.string()
         } else if (response.code == 404) {
-            print("Not Found")
             return null
         } else if (response.code == 403) {
-            print("Forbidden")
             return null
         }
-        print("unexpected response code")
         return null
     }
 

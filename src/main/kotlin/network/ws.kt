@@ -24,7 +24,7 @@ class WS() {
         }
         return 10000
     }
-
+    private lateinit var url : URI
     private var ws: WebSocketClient?
     private var retryCount: Int
     private var reconnecting: Boolean
@@ -98,7 +98,7 @@ class WS() {
 
     private fun _connect(url: URI) {
         val that = this
-
+        this.url = url
         class Client(url: URI) : WebSocketClient(url) {
 
             override fun onOpen(handshake: ServerHandshake?) {
@@ -128,7 +128,7 @@ class WS() {
             }
 
         }
-        this.ws = Client(url)
+        this.ws = Client(this.url)
         this.ws!!.connect()
     }
 
@@ -136,6 +136,7 @@ class WS() {
         if (this.reconnectTimer != null) {
             this.reconnectTimer?.cancel()
         }
+        this.url = url
         this.reconnecting = true
         this.reconnectTimer = Timer(false)
         val that = this
@@ -187,7 +188,7 @@ class WS() {
             this._reconnect(this.url())
         }
         if (this.onClose != null) {
-            this.onClose!!(code, reason)
+            this.onClose!!(code, resultReason)
         }
     }
 
