@@ -60,7 +60,7 @@ bot.start("token")
 ```java
 bot.on("DISPATCH", Main::pic);
 
-bot.on（"MESSAGE_CREATE",Main::speak）
+bot.on("MESSAGE_CREATE",Main::speak）
 ```
 
 For more examples, please refer to the [example](https://github.com/tomon-world/tomon-sdk-kotlin/tree/master/example)
