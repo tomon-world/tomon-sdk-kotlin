@@ -22,6 +22,8 @@ Tomon SDK for Kotlin/Java is a maven module which provide a more convenient way 
 1.declare github repository in your build.gradle
 generate your github token with repo and readLpackages permission
 
+You can also download jar file from [release](https://github.com/tomon-world/tomon-sdk-kotlin/releases).
+
 ```xml
 repositories {
     maven {
